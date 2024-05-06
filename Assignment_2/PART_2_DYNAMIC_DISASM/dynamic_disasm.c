@@ -22,16 +22,34 @@ void get_assembly_mnemonics(pid_t pid, unsigned long rip) {
   csh handle;
   cs_insn *insn;
   size_t count;
-  long data = ptrace(PTRACE_PEEKDATA, pid, rip, NULL);
-  unsigned char code[8];
-  memcpy(code, &data, sizeof(data));
-  char *assembly_mnemonics = NULL;
+  char *str;
+  long ins = ptrace(PTRACE_PEEKTEXT, pid, rip, NULL);
+  size_t ins_size = 0;
+  uint8_t data[16];
+  memcpy(data, &ins, sizeof(ins));
+
+  for (int i = 0; i < sizeof(data); i++) {
+    if (data[i] != 0) {
+      ins_size++;
+    }
+  }
+
+  uint8_t instruction_data_translated[ins_size];
+  int j = 0;
+
+  for (int i = 0; i < sizeof(data); i++) {
+    if (data[i] != 0) {
+      instruction_data_translated[j] = data[i];
+      j++;
+    }
+  }
 
   if (cs_open(CS_ARCH_X86, CS_MODE_64, &handle) != CS_ERR_OK) {
     fprintf(stderr, "Failed to initialize Capstone\n");
   }
 
-  count = cs_disasm(handle, code, sizeof(code), rip, 0, &insn);
+  count = cs_disasm(handle, instruction_data_translated,
+                    sizeof(instruction_data_translated), rip, 0, &insn);
 
   if (count > 0) {
     for (size_t i = 0; i < count; i++) {
