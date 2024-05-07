@@ -22,40 +22,32 @@ void get_assembly_mnemonics(pid_t pid, unsigned long rip) {
   csh handle;
   cs_insn *insn;
   size_t count;
-  char *str;
-  long ins = ptrace(PTRACE_PEEKTEXT, pid, rip, NULL);
-  size_t ins_size = 0;
-  uint8_t data[16];
-  memcpy(data, &ins, sizeof(ins));
 
-  for (int i = 0; i < sizeof(data); i++) {
-    if (data[i] != 0) {
-      ins_size++;
-    }
+  // PTRACE_PEEKTEXT reads only the first 8 bytes of the instruction
+  // so we need to read the next 8 bytes as well for instructions longer than
+  // that
+  long instruction_1_part = ptrace(PTRACE_PEEKTEXT, pid, rip, NULL);
+  long instruction_2_part = ptrace(PTRACE_PEEKTEXT, pid, rip + 8, NULL);
+  uint8_t
+      instruction_data[sizeof(instruction_1_part) + sizeof(instruction_2_part)];
+
+  for (int i = 0; i < 8; i++) {
+    instruction_data[i] = (instruction_1_part >> (i * 8)) & 0xff;
   }
 
-  uint8_t instruction_data_translated[ins_size];
-  int j = 0;
-
-  for (int i = 0; i < sizeof(data); i++) {
-    if (data[i] != 0) {
-      instruction_data_translated[j] = data[i];
-      j++;
-    }
+  for (int i = 0; i < 8; i++) {
+    instruction_data[i + 8] = (instruction_2_part >> (i * 8)) & 0xff;
   }
 
   if (cs_open(CS_ARCH_X86, CS_MODE_64, &handle) != CS_ERR_OK) {
     fprintf(stderr, "Failed to initialize Capstone\n");
   }
 
-  count = cs_disasm(handle, instruction_data_translated,
-                    sizeof(instruction_data_translated), rip, 0, &insn);
+  count = cs_disasm(handle, instruction_data, sizeof(instruction_data) - 2, rip,
+                    0, &insn);
 
   if (count > 0) {
-    for (size_t i = 0; i < count; i++) {
-      printf("0x%lx: %s %s\n", insn[i].address, insn[i].mnemonic,
-             insn[i].op_str);
-    }
+    printf("0x%lx: %s %s\n", insn[0].address, insn[0].mnemonic, insn[0].op_str);
     cs_free(insn, count);
   } else {
     fprintf(stderr, "Failed to disassemble instruction at 0x%lx\n", rip);
@@ -117,7 +109,6 @@ int main(int argc, char *argv[]) {
 
   program_to_execute_arguments[argc - 1] = NULL;
 
-  printf("Tracing %s\n", program_to_execute);
   int instruction_count =
       trace_execution(program_to_execute, program_to_execute_arguments);
   printf("Total machine code instructions executed: %d\n", instruction_count);
