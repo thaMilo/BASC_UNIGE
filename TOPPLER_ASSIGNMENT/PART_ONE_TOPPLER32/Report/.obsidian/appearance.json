@@ -1,0 +1,10 @@
+{
+  "theme": "obsidian",
+  "accentColor": "#1fb3c7",
+  "cssTheme": "Minimal",
+  "interfaceFontFamily": "JetBrainsMono Nerd Font",
+  "textFontFamily": "JetBrainsMono Nerd Font",
+  "monospaceFontFamily": "JetBrainsMono Nerd Font",
+  "baseFontSizeAction": true,
+  "showViewHeader": true
+}
