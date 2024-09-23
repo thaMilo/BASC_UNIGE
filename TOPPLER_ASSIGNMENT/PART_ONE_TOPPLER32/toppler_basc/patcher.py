@@ -17,5 +17,11 @@ if __name__ == "__main__":
     collisions_address = 0x0805cb01
     new_instruction = asm('ret')
     elf.write(collisions_address, new_instruction)
-        
+
+    # no dropping of 1 layer
+    drown_address = 0x0805c056
+    address_to = 0x0805c014
+    new_instruction = asm(f'jmp {hex(address_to)}')
+    elf.write(drown_address, new_instruction)
+  
     elf.save('./toppler_patched')
