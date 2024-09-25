@@ -20,8 +20,16 @@ if __name__ == "__main__":
     elf.write(collisions_address, new_instruction)
 
     # no dropping of 1 layer
-    drown_address = 0x0805C00C
-    new_instruction = asm("add esi, 0x1")
+    # drown_address = 0x0805C012
+    # new_instruction = asm("nop")
+    # elf.write(drown_address, new_instruction)
+
+    # drown_address = 0x0805C05B
+    # new_instruction = asm("nop")
+    # elf.write(drown_address, new_instruction)
+
+    drown_address = 0x0805C060
+    new_instruction = asm("jmp 0x0805C014")
     elf.write(drown_address, new_instruction)
 
     elf.save("./toppler_patched")
