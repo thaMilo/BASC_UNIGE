@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/milo/Desktop/Milo/university/BASC_UNIGE/TOPPLER_ASSIGNMENT/PART_ONE_TOPPLER32/toppler_basc/env"
+set -gx VIRTUAL_ENV "/home/milo/Desktop/milo/university/BASC_UNIGE/TOPPLER_ASSIGNMENT/PART_ONE_TOPPLER32/toppler_basc/env"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

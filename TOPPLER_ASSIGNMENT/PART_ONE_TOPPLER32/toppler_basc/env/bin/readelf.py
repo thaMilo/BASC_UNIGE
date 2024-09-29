@@ -1,4 +1,4 @@
-#!/home/milo/Desktop/Milo/university/BASC_UNIGE/TOPPLER_ASSIGNMENT/PART_ONE_TOPPLER32/toppler_basc/env/bin/python
+#!/home/milo/Desktop/milo/university/BASC_UNIGE/TOPPLER_ASSIGNMENT/PART_ONE_TOPPLER32/toppler_basc/env/bin/python3
 #-------------------------------------------------------------------------------
 # scripts/readelf.py
 #
