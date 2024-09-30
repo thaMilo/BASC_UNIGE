@@ -1,7 +1,7 @@
 from pwn import asm, ELF
 
 if __name__ == "__main__":
-    elf = ELF("./toppler32/toppler32")
+    elf = ELF("./toppler32")
 
     # infinite lives
     lifes_left_function = elf.symbols["_Z13pts_lifesleftv"]
