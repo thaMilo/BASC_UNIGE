@@ -19,14 +19,9 @@ if __name__ == "__main__":
     patch_code = asm("ret")
     elf.write(collisions_address, patch_code)
 
-
     # starting with more lives than 3
-    collisions_address = 0x403e8f
-    patch_code = asm("mov dword ptr[rax+0x40], 0x9")
-    elf.write(collisions_address, patch_code)
-         
-    collisions_address = 0x404291
-    patch_code = asm("nop")
-    elf.write(collisions_address, patch_code)
-   
+    starting_lives_address = 0x41e119
+    patch_code = asm("ret")
+    elf.write(starting_lives_address, patch_code)
+
     elf.save("./toppler_patched")
