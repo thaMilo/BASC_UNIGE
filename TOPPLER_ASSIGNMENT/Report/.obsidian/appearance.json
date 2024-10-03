@@ -1,11 +1,11 @@
 {
   "theme": "obsidian",
-  "accentColor": "#14d79c",
-  "cssTheme": "Minimal",
-  "interfaceFontFamily": "Iosevka Nerd Font",
-  "textFontFamily": "Iosevka Nerd Font",
-  "monospaceFontFamily": "Iosevka Nerd Font",
+  "accentColor": "#24a37d",
+  "cssTheme": "",
+  "interfaceFontFamily": "JetBrainsMono Nerd Font",
+  "textFontFamily": "JetBrainsMono Nerd Font",
+  "monospaceFontFamily": "JetBrainsMono Nerd Font",
   "baseFontSizeAction": true,
   "showViewHeader": true,
-  "baseFontSize": 26
+  "baseFontSize": 21
 }

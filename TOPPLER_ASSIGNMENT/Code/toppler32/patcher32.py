@@ -4,9 +4,9 @@ if __name__ == "__main__":
     elf = ELF("./toppler32")
 
     # infinite lives
-    lifes_left_function = elf.symbols["_Z13pts_lifesleftv"]
-    patch_code = asm("mov al, 1; ret")
-    elf.write(lifes_left_function, patch_code)
+    lifes_left_address = 0x08056417
+    patch_code = asm("ret")
+    elf.write(lifes_left_address, patch_code)
 
     # infinite time
     time_update_address = 0x0804C4C9
@@ -19,12 +19,8 @@ if __name__ == "__main__":
     elf.write(collisions_address, patch_code)
 
     # no balls and no robots
-    jumping_address = 0x08056751
+    robots_address = 0x08056a4a
     patch_code = asm("ret")
-    elf.write(jumping_address, patch_code)
-
-    jumping_address = 0x08056879
-    patch_code = asm("ret")
-    elf.write(jumping_address, patch_code)
+    elf.write(robots_address, patch_code)
    
     elf.save("./toppler_patched")
