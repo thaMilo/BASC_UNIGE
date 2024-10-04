@@ -35,6 +35,20 @@ Python code to apply the patch :
     elf.write(time_update_address, patch_code)
 ```
 
+### No enemies mod
+
+The target for this mod was removing robots from the game. 
+So I started looking for functions that managed robot initialization.
+I came across "rob_new" that managed the creation of robots inside levels and trivially patching its body with a "ret" instruction got rid of all the enemies
+
+Python code to apply the patch :
+
+```python
+	robots_address = 0x08056a4a
+	patch_code = asm("ret")
+	elf.write(robots_address, patch_code)
+```
+
 ### No collisions mod
 
 The target for this mod was getting toppler to be unkillable by robots making him untouchable.
@@ -51,24 +65,52 @@ Python code to apply the patch :
     elf.write(collisions_address, patch_code)
 ```
 
-### No enemies mod
-
-The target for this mod was removing robots from the game. 
-So I started looking for functions that managed robot initialization.
-I came across "rob_new" that managed the creation of robots inside levels and trivially patching its body with a "ret" instruction got rid of all the enemies
-
-Python code to apply the patch :
-
-```python
-	robots_address = 0x08056a4a
-	patch_code = asm("ret")
-	elf.write(robots_address, patch_code)
-```
-
-
 # Toppler64
 
 ### Infinite lives mod
 
-Following the hints provided on the readme I looked at the address 0x42b8f0
+The focus for this mod, as did previously on the 32bit version, was giving toppler infinite lives.
+Following the hints provided on the Readme I looked for functions accessing the lives value located at address 0x42b8f0 and more specifically where it was being decreased.
+I found a function located at address 0x413ffb wher that value was actually decrease by one
 
+![](Screenshots/decrease_lives_function.png)
+
+Replacing the "sub" instruction with a "nop" actually prevented toppler's lives from getting decreased when he died.
+
+Python code to apply the patch : 
+
+```Python
+  lives_address = 0x414008
+  patch_code = asm("nop")
+  elf.write(lives_address, patch_code)
+```
+
+### Infinite time mod
+
+The focus for this mod, as did previously on the 32bit version, was giving toppler infinite time to complete the mission.
+From the Readme's hint I knew the location of the "akt_time" function so I did exactly the same thing as before, replacing the function's body with a "ret" instruction and there was the trick!
+
+Python code to apply the patch: 
+
+```Python
+  time_address = 0x4063b2
+  patch_code = asm("ret")
+  elf.write(time_address, patch_code)
+```
+
+### No enemies mod
+
+The focus for this mod, as did previously on the 32bit version, was removing completely from the game toppler's enemies.
+Looking at the "interesting addresses" and knowing that the two executables were compiled from the same source I noticed that the
+function at address 0x414d9e was the same as the one initializing robots in the 32bit version.
+So as I did before I placed a "ret" instruction at that address, getting rid of robots initialization.
+
+Python code to apply the patch:
+
+```Python
+  robots_address = 0x414d9e
+  patch_code = asm("ret")
+  elf.write(robots_address, patch_code)  
+```
+
+### No collisions mod
