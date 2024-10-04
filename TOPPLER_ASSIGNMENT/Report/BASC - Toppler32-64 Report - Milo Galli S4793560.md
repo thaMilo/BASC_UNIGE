@@ -1,6 +1,6 @@
 # Toppler32
 
-### Infinite life mod
+### Infinite lives mod
 
 The target for this mod was getting toppler to live forever so I started looking for functions that managed his lives.
 I came across "pts_died" that had a pretty simple body in pseudo-C:
@@ -68,5 +68,7 @@ Python code to apply the patch :
 
 # Toppler64
 
+### Infinite lives mod
 
+Following the hints provided on the readme I looked at the address 0x42b8f0
 

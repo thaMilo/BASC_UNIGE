@@ -2,7 +2,7 @@
 
 I started my analysis by running the **file** commmand:
 
-![[file_elf1.png]]
+![](img/file_elf1.png)
 Nothing relevant seemed to be there so I continued by opening the file with the **hte** editor and took a look at the ELF header but nothing relevant was there.
 But looking ad the section headers I found this :
 

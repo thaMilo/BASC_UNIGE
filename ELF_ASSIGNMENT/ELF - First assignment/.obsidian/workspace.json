@@ -1,19 +1,19 @@
 {
   "main": {
-    "id": "d406e3d7ac2606f8",
+    "id": "87b3aa03b2a99d7b",
     "type": "split",
     "children": [
       {
-        "id": "1ad284fa9ff0d299",
+        "id": "c365ac2b3b2dabe0",
         "type": "tabs",
         "children": [
           {
-            "id": "1ab2615ab72b40f2",
+            "id": "89fb9495c5dc0f43",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "BASC - Toppler32-64 Report - Milo Galli S4793560.md",
+                "file": "ELF FILES' ANALYSIS - Milo Galli S4793560.md",
                 "mode": "source",
                 "source": false
               }
@@ -25,15 +25,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "0725164fb682c6d9",
+    "id": "aa7d64e4a4720a83",
     "type": "split",
     "children": [
       {
-        "id": "002d7fdb1356503b",
+        "id": "44fd79116802d364",
         "type": "tabs",
         "children": [
           {
-            "id": "be04b92b4c9c81e7",
+            "id": "6cae18a149fa74c5",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -43,7 +43,7 @@
             }
           },
           {
-            "id": "adb708a185f3403b",
+            "id": "99a137caa69ede75",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -58,7 +58,7 @@
             }
           },
           {
-            "id": "d1b186431ea433ed",
+            "id": "18b75149c96e9db1",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -69,24 +69,23 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
-    "id": "7413c3c0f4fdcc0e",
+    "id": "941afe6176c18a81",
     "type": "split",
     "children": [
       {
-        "id": "9cf0e62a9786ce59",
+        "id": "52a6fb19ff39b523",
         "type": "tabs",
         "children": [
           {
-            "id": "d4aa77841de6fc60",
+            "id": "4af4d6b8cf1557d4",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "BASC - Toppler32-64 Report - Milo Galli S4793560.md",
+                "file": "ELF FILES' ANALYSIS - Milo Galli S4793560.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -98,19 +97,19 @@
             }
           },
           {
-            "id": "ec846df488769ee8",
+            "id": "6c60a197f2513830",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "BASC - Toppler32-64 Report - Milo Galli S4793560.md",
+                "file": "ELF FILES' ANALYSIS - Milo Galli S4793560.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
             }
           },
           {
-            "id": "4e2bdc033d4a9c87",
+            "id": "2b55a863e920c0c3",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -121,12 +120,12 @@
             }
           },
           {
-            "id": "37ff0dcca5767e57",
+            "id": "a35f33ac277238e6",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "BASC - Toppler32-64 Report - Milo Galli S4793560.md"
+                "file": "ELF FILES' ANALYSIS - Milo Galli S4793560.md"
               }
             }
           }
@@ -147,16 +146,6 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "1ab2615ab72b40f2",
-  "lastOpenFiles": [
-    "BASC - Toppler32-64 Report - Milo Galli S4793560.mdmsbf2L.bck",
-    "BASC - Toppler32-64 Report - Milo Galli S4793560.mdvgWLUh.bck",
-    "BASC - Toppler32-64 Report - Milo Galli S4793560.mdRvhhvZ.bck",
-    "BASC - Toppler32-64 Report - Milo Galli S4793560.md463Sod.bck",
-    "BASC - Toppler32-64 Report - Milo Galli S4793560.mdJ52h0O.bck",
-    "BASC - Toppler32 Report - Milo Galli S4793560.mddF7q4c.bck",
-    "BASC - Toppler32 Report - Milo Galli S4793560.mdvan9VD.bck",
-    "BASC - Toppler32 Report - Milo Galli S4793560.mdMgm3aJ.bck",
-    "BASC - Toppler32 Report - Milo Galli S4793560.md"
-  ]
+  "active": "6cae18a149fa74c5",
+  "lastOpenFiles": []
 }
