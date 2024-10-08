@@ -114,3 +114,15 @@ Python code to apply the patch:
 ```
 
 ### No collisions mod
+
+The focus for this mod, as did previously on the 32bit version, was making toppler invincible by making him untouchable by his enemies.
+Since the two executables where compiled from the same source I followed the function calls that lead to the "top_testcollision" function in the 32bit version and did the same in the 64bit one until I found the chosen address.
+Adding a "ret" intruction then completed the mod removing toppler's interactions with robots.
+
+Python code to apply the patch:
+
+```python
+  collisions_address = 0x41e119
+  patch_code = asm("ret")
+  elf.write(collisions_address, patch_code)
+```
