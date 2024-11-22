@@ -6,11 +6,6 @@ import sys
 HOST = vpn_conf.HOST
 PORT = int(vpn_conf.BASE_PORT + 3)
 EXE_FILENAME = "./smallcode"
-# HOW TO FIND FIND THE OFFSET
-# pattern = cyclic(100)
-# io = process(bin)
-# io.sendline(pattern)
-# offset = cyclic_find(0x6161616c)
 
 
 def start():
