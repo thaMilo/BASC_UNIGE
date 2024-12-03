@@ -1,7 +1,7 @@
 # BOF101
 
 The first thing to do to exploit the vulnerability in this exercise as the name suggested was finding the correct offset to make the input buffer overflow.
-In order to do so I used the cyclic pattern explained in the slides using pwntools methods that made this task quite simple
+In order to do so I used the cyclic pattern explained in the slides using pwntool=s methods that made this task quite simple
 
 ```python
 pattern = pwn.cyclic(100)
@@ -98,3 +98,8 @@ The trick resides in the 'incr' function where the instead of explicitly writing
 BASC{s4ndb0X1n9_AiNt_3a5y}
 ```
 
+# Blockchain
+
+```
+This is a blockchain (not _that_ blockchain) builder. That is, you provide a series of 5-byte blocks, and we join them together, then run the resulting chain.
+```
