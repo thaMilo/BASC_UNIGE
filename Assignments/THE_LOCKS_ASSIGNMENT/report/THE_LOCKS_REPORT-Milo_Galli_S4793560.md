@@ -54,14 +54,14 @@ undefined4 main(void)
 }
 ```
 
-I noticed immediately that right after printing out infos about the program it called the **decode** function on my_super_password before prompting the user to insert it.
-As hinted by the program
+I noticed immediately that the program called the **decode** function on my_super_password before prompting the user to insert the password.
+So right after being prompted as hinted by the program
 
 ```
 "...If you could only stop time and read the password before it's too late..."
 ```
 
-Dumping the value of **my_super_password**'s address with gdb right after it was decoded was just enough to get the password
+I dumped the value of **my_super_password**'s address with gdb and that was just enough to get the password
 
 ```
 (gdb) x/s 0x5656f50c
@@ -74,6 +74,7 @@ And using that granted me the flag
 BASC{Y0u_int3rc3pt3d_stRcMp_didnt_U---thaMilo-8NUmLrFh}
 ```
 
+_even though I didn't intercept strcmp ( ͡° ͜ʖ ͡°)_
 # level-2
 
 ```
