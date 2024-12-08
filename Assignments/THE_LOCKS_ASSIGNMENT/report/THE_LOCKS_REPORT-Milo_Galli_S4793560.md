@@ -61,7 +61,7 @@ As hinted by the program
 "...If you could only stop time and read the password before it's too late..."
 ```
 
-Dumping the value of **my_super_password**'s address with gdb before being propted was just enough to get the password
+Dumping the value of **my_super_password**'s address with gdb right after it was decoded was just enough to get the password
 
 ```
 (gdb) x/s 0x5656f50c
@@ -75,3 +75,8 @@ BASC{Y0u_int3rc3pt3d_stRcMp_didnt_U---thaMilo-8NUmLrFh}
 ```
 
 # level-2
+
+
+```
+BASC{Br3akP0int5_and_3mul4t10n_R_us3fUl---thaMilo-Q8rGk6EE}
+```

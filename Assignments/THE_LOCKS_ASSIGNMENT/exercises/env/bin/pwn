@@ -1,4 +1,4 @@
-#!/home/milo/Desktop/milo/university/BASC_UNIGE/Assignments/THE_LOCKS_ASSIGNMENT/exercises/env/bin/python3
+#!/home/milo/Desktop/milo/uni/BASC_UNIGE/Assignments/THE_LOCKS_ASSIGNMENT/exercises/env/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
