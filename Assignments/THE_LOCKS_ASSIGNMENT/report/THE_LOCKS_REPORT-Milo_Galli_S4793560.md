@@ -76,6 +76,75 @@ BASC{Y0u_int3rc3pt3d_stRcMp_didnt_U---thaMilo-8NUmLrFh}
 
 # level-2
 
+```
+(gdb) b __libc_start_main
+Function "__libc_start_main" not defined.
+Make breakpoint pending on future shared library load? (y or [n]) y
+Breakpoint 1 (__libc_start_main) pending.
+```
+
+```
+(gdb) r
+Starting program: ~/.../thaMilo-the_lock-level_2
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib/libthread_db.so.1".
+Breakpoint 1, __libc_start_main_impl (main=0x555555555620, argc=1, argv=0x7fffffffddc8,
+    init=0x0, fini=0x0, rtld_fini=0x7ffff7fcb200 <_dl_fini>, stack_end=0x7fffffffddb8)
+    at ../csu/libc-start.c:242
+242	{
+```
+
+**0x0x555555555620**
+
+![](./imgs/r2_lock2.png)
+```
+(gdb) b *0x555555555620
+Breakpoint 2 at 0x555555555620
+```
+
+```
+Breakpoint 2, 0x0000555555555620 in ?? ()
+(gdb) ni
+0x0000555555555621 in ?? ()
+(gdb) ni
+0x0000555555555624 in ?? ()
+.
+.
+.
+(gdb) ni
+1) decodes the password in memory (function at address: 0x5555555551de)
+.
+.
+.
+2) checks whether you know the password; if you do, the flag is printed (using function at address: 0x555555555506)
+.
+.
+.
+(gdb) ni
+The address of super-secret-password is random (this time it is 0x55555556b510), but it will be passed, as the first argument, to some functions. If you could only stop time and read the password before it's too late...
+```
+
+```
+(gdb) x/s 0x55555556b510
+0x55555556b510:	"\245= gW\017@\246:\276(\326x\231\325Cc\232G\306bGzqM"
+```
+
+```
+(gdb) b *0x5555555551de
+Breakpoint 3 at 0x5555555551de
+```
+
+![](./imgs/decode_fun_lock2.png)
+![](./imgs/decode_fun_end_lock2.png)
+```
+.
+.
+.
+(gdb) ni
+0x000055555555574c in ?? ()
+(gdb) x/s 0x55555556b510
+0x55555556b510:	"123456789123_lovelovelove"
+```
 
 ```
 BASC{Br3akP0int5_and_3mul4t10n_R_us3fUl---thaMilo-Q8rGk6EE}

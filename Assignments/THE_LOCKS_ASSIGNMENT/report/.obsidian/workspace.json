@@ -167,6 +167,8 @@
   },
   "active": "1ab2615ab72b40f2",
   "lastOpenFiles": [
+    "imgs/decode_fun_end_lock2.png",
+    "imgs/decode_fun_lock2.png",
     "EXPLOITING_REPORT-Milo_Galli_S4793560.mda1v4HC.bck",
     "EXPLOITING_REPORT-Milo_Galli_S4793560.mdZAGJwI.bck",
     "imgs/call_me_flag_function_caller.png",
@@ -186,9 +188,7 @@
     "EXPLOITING_REPORT-Milo_Galli_S4793560.mdfK4aIT.bck",
     "EXPLOITING_REPORT-Milo_Galli_S4793560.mdr6S1uc.bck",
     "imgs/basc_flag.png",
-    "EXPLOITING_REPORT-Milo_Galli_S4793560.mdfIDsDm.bck",
     "basc_flag.png",
-    "imgs/cyclic_pattern.png",
     "BASC - Toppler32 Report - Milo Galli S4793560.md"
   ]
 }
