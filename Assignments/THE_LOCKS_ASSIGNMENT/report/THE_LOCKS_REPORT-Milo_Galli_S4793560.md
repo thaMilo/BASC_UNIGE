@@ -74,8 +74,11 @@ And using that granted me the flag
 BASC{Y0u_int3rc3pt3d_stRcMp_didnt_U---thaMilo-8NUmLrFh}
 ```
 
-_even though I didn't intercept strcmp ( ͡° ͜ʖ ͡°)_
 # level-2
+
+Just by running the bin I could tell that this level was similar to the first one but with a twist and to be sure of that I ran **file**.
+Doing so I discovered that the executable was stripped so I couldn't rely on functions' name to step through it.
+Assuming that the first call made by the program was to \_\_libc_start_main I set a break-point with gdb to it
 
 ```
 (gdb) b __libc_start_main
@@ -83,6 +86,8 @@ Function "__libc_start_main" not defined.
 Make breakpoint pending on future shared library load? (y or [n]) y
 Breakpoint 1 (__libc_start_main) pending.
 ```
+
+After that I run the program revealing the real address of the main function
 
 ```
 (gdb) r
@@ -95,9 +100,12 @@ Breakpoint 1, __libc_start_main_impl (main=0x555555555620, argc=1, argv=0x7fffff
 242	{
 ```
 
-**0x0x555555555620**
+To check if that was actually the main function I looked at the **offset** (620) and checked with r2 to be sure
 
 ![](./imgs/r2_lock2.png)
+
+So I set a break-point at that address and stepping one instruction at a time I was able to get the other addresses revealed by the executable itself
+
 ```
 (gdb) b *0x555555555620
 Breakpoint 2 at 0x555555555620
@@ -125,27 +133,26 @@ Breakpoint 2, 0x0000555555555620 in ?? ()
 The address of super-secret-password is random (this time it is 0x55555556b510), but it will be passed, as the first argument, to some functions. If you could only stop time and read the password before it's too late...
 ```
 
-```
-(gdb) x/s 0x55555556b510
-0x55555556b510:	"\245= gW\017@\246:\276(\326x\231\325Cc\232G\306bGzqM"
-```
+Since I knew the address of the decode function I set a break-point at it and looked with r2 at what offset the function terminated (43d) assuming that if I stepped after that address I would be able to look at the decoded password
 
 ```
 (gdb) b *0x5555555551de
 Breakpoint 3 at 0x5555555551de
 ```
 
-![](./imgs/decode_fun_lock2.png)
 ![](./imgs/decode_fun_end_lock2.png)
+
 ```
 .
 .
 .
 (gdb) ni
-0x000055555555574c in ?? ()
+0x0000555555555742 in ?? ()
 (gdb) x/s 0x55555556b510
 0x55555556b510:	"123456789123_lovelovelove"
 ```
+
+And there it was! Using that granted me the flag
 
 ```
 BASC{Br3akP0int5_and_3mul4t10n_R_us3fUl---thaMilo-Q8rGk6EE}
