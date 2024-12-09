@@ -97,7 +97,7 @@ Function "__libc_start_main" not defined.
 Make breakpoint pending on future shared library load? (y or [n]) y
 Breakpoint 1 (__libc_start_main) pending.
 (gdb) r
-Starting program: ~/.../thaMilo-the_lock-level_2
+Starting program: ~/.../thaMilo-the_lock-level_2F
 [Thread debugging using libthread_db enabled]
 Using host libthread_db library "/usr/lib/libthread_db.so.1".
 Breakpoint 1, __libc_start_main_impl (main=0x555555555620, argc=1, argv=0x7fffffffddc8,
@@ -106,11 +106,7 @@ Breakpoint 1, __libc_start_main_impl (main=0x555555555620, argc=1, argv=0x7fffff
 242	{
 ```
 
-To check if I was right I checked with r2 the offset of main (620). 
-
-![](./imgs/r2_lock2.png)
-
-Since it seemed right I set a break-point at that address and stepping one instruction at a time I was able to get the other addresses revealed by the executable itself
+After that I set a break-point at that address and stepping one instruction at a time I was able to get the other addresses revealed by the executable itself
 
 ```
 (gdb) b *0x555555555620
