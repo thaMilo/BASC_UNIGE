@@ -167,6 +167,7 @@
   },
   "active": "1ab2615ab72b40f2",
   "lastOpenFiles": [
+    "imgs/unicorn.png",
     "imgs/r2_lock2.png",
     "imgs/decode_fun_lock2.png",
     "imgs/decode_fun_end_lock2.png",
@@ -188,7 +189,6 @@
     "media",
     "EXPLOITING_REPORT-Milo_Galli_S4793560.mdfK4aIT.bck",
     "EXPLOITING_REPORT-Milo_Galli_S4793560.mdr6S1uc.bck",
-    "imgs/basc_flag.png",
     "BASC - Toppler32 Report - Milo Galli S4793560.md"
   ]
 }

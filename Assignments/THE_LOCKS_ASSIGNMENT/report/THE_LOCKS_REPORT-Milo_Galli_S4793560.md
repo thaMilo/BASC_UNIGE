@@ -54,27 +54,44 @@ undefined4 main(void)
 }
 ```
 
-I noticed immediately that the program called the **decode** function on my_super_password before prompting the user to insert the password.
-So right after being prompted as hinted by the program
+I noticed immediately that the program called the **decode** function before prompting the user to insert the password.
+So as the bin suggested when the **clear** function was called I could read the decoded password because it was passed as the first argument.
+Setting a break-point to clear and giving a random string as password was enough to read the first argument
 
 ```
-"...If you could only stop time and read the password before it's too late..."
+Breakpoint 1, clear (buf=0x649e250c <my_super_password> "residentevil", size=13) at the_lock.c:679
+warning: 679    the_lock.c: No such file or directory
 ```
 
-I dumped the value of **my_super_password**'s address with gdb and that was just enough to get the password
-
-```
-(gdb) x/s 0x5656f50c
-0x5656f50c <my_super_password>:	"residentevil"
-```
-
-And using that granted me the flag
+So using **residentevil** as password I was able to get the first flag
 
 ```
 BASC{Y0u_int3rc3pt3d_stRcMp_didnt_U---thaMilo-8NUmLrFh}
 ```
 
+Automating this with python resulted in the following script
+
+```python
+from pwn import *
+
+p = process("./thaMilo-the_lock-level_1")
+
+gdb.attach(
+    p,
+    """
+    break clear
+    continue
+""",
+)
+
+password = b"my_super_password"
+p.sendline(password)
+p.interactive()
+```
+
 # level-2
+
+![](./imgs/unicorn.png)
 
 Just by running the bin I could tell that this level was similar to the first one but with a twist and to be sure of that I ran **file**.
 Doing so I discovered that the executable was stripped so I couldn't rely on functions' name to step through it.
