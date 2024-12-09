@@ -56,12 +56,9 @@ undefined4 main(void)
 
 I noticed immediately that the program called the **decode** function before prompting the user to insert the password.
 So as the bin suggested when the **clear** function was called I could read the decoded password because it was passed as the first argument.
-Setting a break-point to clear and giving a random string as password was enough to read the first argument
+Setting a break-point to the clear function and giving a random string as password was enough to read the first argument
 
-```
-Breakpoint 1, clear (buf=0x649e250c <my_super_password> "residentevil", size=13) at the_lock.c:679
-warning: 679    the_lock.c: No such file or directory
-```
+![](./imgs/py_script_lock1.png)
 
 So using **residentevil** as password I was able to get the first flag
 
