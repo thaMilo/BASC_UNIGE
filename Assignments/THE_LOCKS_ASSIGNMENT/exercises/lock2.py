@@ -2,13 +2,10 @@ from unicorn import *
 from unicorn.x86_const import *
 from pwn import *
 
-PASSWORD_ADDRESS = 0x10117510
-DECODE_FUNCTION_ADDR = 0x101742
-MEM_SIZE = 2 * 1024 * 1024
-
 
 def main():
-    
+    uc = Uc(UC_ARCH_X86, UC_MODE_64)
+
 
 if __name__ == "__main__":
     main()
