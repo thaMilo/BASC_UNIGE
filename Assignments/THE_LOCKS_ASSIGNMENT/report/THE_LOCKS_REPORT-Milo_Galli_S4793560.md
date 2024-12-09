@@ -88,22 +88,14 @@ p.interactive()
 
 # level-2
 
-## The manual approach
-
-Just by running the bin I could tell that this level was similar to the first one but with a twist and to be sure of that I ran **file**.
-Doing so I discovered that the executable was stripped so I couldn't rely on functions' name to step through it.
-Assuming that the first call made by the program was to \_\_libc_start_main I set a break-point with gdb to it
+Running "file" revealed that the bin was stripped so I couldn't rely on functions' name to step through it.
+Assuming that the first call made by the program was to \_\_libc_start_main I set a break-point to it with gdb and ran to reveal the real main address
 
 ```
 (gdb) b __libc_start_main
 Function "__libc_start_main" not defined.
 Make breakpoint pending on future shared library load? (y or [n]) y
 Breakpoint 1 (__libc_start_main) pending.
-```
-
-After that I run the program revealing the real address of the main function
-
-```
 (gdb) r
 Starting program: ~/.../thaMilo-the_lock-level_2
 [Thread debugging using libthread_db enabled]
@@ -114,11 +106,11 @@ Breakpoint 1, __libc_start_main_impl (main=0x555555555620, argc=1, argv=0x7fffff
 242	{
 ```
 
-To check if that was actually the main function I looked at the **offset** (620) and checked with r2 to be sure
+To check if I was right I checked with r2 the offset of main (620). 
 
 ![](./imgs/r2_lock2.png)
 
-Since it seemed to be right I set a break-point at that address and stepping one instruction at a time I was able to get the other addresses revealed by the executable itself
+Since it seemed right I set a break-point at that address and stepping one instruction at a time I was able to get the other addresses revealed by the executable itself
 
 ```
 (gdb) b *0x555555555620
@@ -143,8 +135,7 @@ Breakpoint 2, 0x0000555555555620 in ?? ()
 The address of super-secret-password is random (this time it is 0x55555556b510), but it will be passed, as the first argument, to some functions. If you could only stop time and read the password before it's too late...
 ```
 
-Since I knew the address of the "reset password" function I set a break-point at it and similarly to what I did before I dumped the value of password address after being prompted.
-Doing so I was able to see the decoded "super password"
+Doing so I got the "reset password" function address and, as above, I set a break-point to it dumping the value of the decoded "super password"'s address after being prompted.
 
 ```
 (gdb) b *0x5555555554b8
@@ -157,13 +148,21 @@ Nice try... however, it's wrong. Try again.
 0x55555556b510:	"123456789123_lovelovelove"
 ```
 
-Using that I was able to get the flag
+Using "123456789123_lovelovelove" as password I was able to get the flag
 
 ```
 BASC{Br3akP0int5_and_3mul4t10n_R_us3fUl---thaMilo-Q8rGk6EE}
 ```
 
-## The automated approach - Unicorn
+In order to automate it with unicorn I lost my sanity
 
-![](./imgs/unicorn.png)
+![](./imgs/me.jpg)
+
+
+
+
+
+
+
+
 

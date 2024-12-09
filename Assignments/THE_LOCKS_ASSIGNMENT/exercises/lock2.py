@@ -2,9 +2,37 @@ from unicorn import *
 from unicorn.x86_const import *
 from pwn import *
 
+BIN = "./thaMilo-the_lock-level_2"
+
 
 def main():
     uc = Uc(UC_ARCH_X86, UC_MODE_64)
+    elf = ELF(BIN)
+    entry_point = elf.entry
+
+    for segment in elf.segments:
+        if segment.header.p_type == "PT_LOAD":
+            seg_start = segment.header.p_vaddr
+            seg_size = segment.header.p_memsz
+            seg_data = segment.data()
+
+            seg_size_aligned = (seg_size + 0xFFF) & ~0xFFF
+
+            uc.mem_map(seg_start, seg_size_aligned, UC_PROT_ALL)
+            uc.mem_write(seg_start, seg_data)
+            print(f"Mapped segment at 0x{seg_start:X} - Size: {seg_size_aligned:X}")
+
+    stack_base = 0x7FFFFFF00000
+    stack_size = 0x10000
+    uc.mem_map(stack_base, stack_size, UC_PROT_ALL)
+    uc.reg_write(UC_X86_REG_RSP, stack_base + stack_size // 2)
+    print(f"Stack mapped at 0x{stack_base:X} - Size: {stack_size:X}")
+
+    try:
+        print(f"Starting emulation at 0x{entry_point:X}")
+        uc.emu_start(entry_point, entry_point + 0x1000)
+    except UcError as e:
+        print(f"Emulation error: {e}")
 
 
 if __name__ == "__main__":
@@ -14,67 +42,37 @@ if __name__ == "__main__":
 # from unicorn import *
 # from unicorn.x86_const import *
 # from pwn import *
-# import os
 
-# PAGE_SIZE = 0x100000
-# CODE_START = 0x100000
-# STACK_START = 0x8000
-# STACK_SIZE = PAGE_SIZE * 2
-# DATA_START = 0x6000
-# DATA_SIZE = PAGE_SIZE * 2
-
-# PASSWORD_DECODE_FUNC =
-# PASSWORD_CHECK_FUNC =
-# PASSWORD_ADDRESS =
-
-# binary_path = "thaMilo-the_lock-level_2"
-# binary_code = open(binary_path, "rb").read()
-# binary_size = len(binary_code)
-
-# CODE_SIZE = ((binary_size + PAGE_SIZE - 1) // PAGE_SIZE) * PAGE_SIZE
-
-# mu = Uc(UC_ARCH_X86, UC_MODE_64)
-
-# try:
-#     mu.mem_map(CODE_START, CODE_SIZE)
-#     mu.mem_map(DATA_START, DATA_SIZE)
-#     mu.mem_map(STACK_START, STACK_SIZE)
-#     mu.mem_write(CODE_START, binary_code)
-#     mu.reg_write(UC_X86_REG_RSP, STACK_START + STACK_SIZE - 8)
-
-# except UcError as e:
-#     print(f"[!] Memory Mapping Error: {e}")
-#     exit(1)
+# BIN = "./thaMilo-the_lock-level_2"
 
 
-# def hook_code(mu, address, size, user_data):
-#     if address == PASSWORD_DECODE_FUNC:
-#         print(f"[+] Password decoding function called at {hex(address)}")
-#     elif address == PASSWORD_CHECK_FUNC:
-#         password = mu.mem_read(PASSWORD_ADDRESS, 0x19).decode("latin-1").strip("\x00")
-#         print(f"[+] Extracted Password: {password}")
-#         mu.emu_stop()
+# def main():
+#     uc = Uc(UC_ARCH_X86, UC_MODE_64)
+
+#     stack_base = 0x10000000
+#     stack_size = 0x010000000
+#     ESP = stack_base + (stack_size // 2)
+
+#     uc.mem_map(stack_base, stack_size)
+#     uc.mem_write(stack_base, b"\x00" * stack_size)
+#     uc.reg_write(UC_X86_REG_ESP, ESP)
+
+#     target_base = 0x40000000
+#     target_size = 0x10000000
+
+#     code = ""
+#     with open(BIN, "rb") as fp:
+#         code = fp.read()
+
+#     uc.mem_map(target_base, target_size, UC_PROT_ALL)
+#     uc.mem_write(target_base, b"\x00" * target_size)
+#     uc.mem_write(target_base, code)
+
+#     target_end = target_base + len(code)
+
+#     uc.emu_start(target_base, target_end, timeout=0, count=0)
+#     print("done")
 
 
-# mu.hook_add(UC_HOOK_CODE, hook_code)
-
-# try:
-#     print("[*] Starting emulation...")
-#     mu.emu_start(CODE_START, CODE_START + binary_size)
-# except UcError as e:
-#     print(f"[!] Emulation Error: {e}")
-
-# try:
-#     extracted_password = (
-#         mu.mem_read(PASSWORD_ADDRESS, 0x19).decode("latin-1").strip("\x00")
-#     )
-#     print(f"[+] Final Extracted Password: {extracted_password}")
-
-#     # Automate exploitation using pwntools
-#     print("[*] Automating exploitation...")
-#     p = process("thaMilo-the_lock-level_2")
-#     p.sendline(extracted_password)
-#     result = p.recvall().decode()
-#     print(f"[+] Program Output:\n{result}")
-# except UcError as e:
-#     print(f"[!] Memory Read Error: {e}")
+# if __name__ == "__main__":
+#     main()
