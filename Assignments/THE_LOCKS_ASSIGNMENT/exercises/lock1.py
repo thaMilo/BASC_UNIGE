@@ -10,6 +10,6 @@ gdb.attach(
 """,
 )
 
-password = b"my_super_password"
+password = b"a"
 p.sendline(password)
 p.interactive()

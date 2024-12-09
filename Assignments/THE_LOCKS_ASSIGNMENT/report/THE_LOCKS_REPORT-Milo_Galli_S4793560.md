@@ -55,12 +55,12 @@ undefined4 main(void)
 ```
 
 I noticed immediately that the program called the **decode** function before prompting the user to insert the password.
-So as the bin suggested when the **clear** function was called I could read the decoded password because it was passed as the first argument.
-Setting a break-point to the clear function and giving a random string as password was enough to read the first argument
+So as the bin suggested when the **clear function** was called I could read the decoded password because it was passed as the first argument.
+Setting a break-point to that function and giving a random string as password was enough to lock-pick the first level.
 
 ![](./imgs/py_script_lock1.png)
 
-So using **residentevil** as password I was able to get the first flag
+Using "residentevil" as password I was able to get the first flag
 
 ```
 BASC{Y0u_int3rc3pt3d_stRcMp_didnt_U---thaMilo-8NUmLrFh}
@@ -81,7 +81,7 @@ gdb.attach(
 """,
 )
 
-password = b"my_super_password"
+password = b"a"
 p.sendline(password)
 p.interactive()
 ```
