@@ -2,9 +2,9 @@
   "theme": "obsidian",
   "accentColor": "#b76ef2",
   "cssTheme": "Minimal",
-  "interfaceFontFamily": "Agave Nerd Font",
-  "textFontFamily": "Agave Nerd Font",
-  "monospaceFontFamily": "Agave Nerd Font",
+  "interfaceFontFamily": "JetBrainsMono Nerd Font",
+  "textFontFamily": "JetBrainsMono Nerd Font",
+  "monospaceFontFamily": "JetBrainsMono Nerd Font",
   "baseFontSizeAction": true,
   "showViewHeader": true,
   "baseFontSize": 21
