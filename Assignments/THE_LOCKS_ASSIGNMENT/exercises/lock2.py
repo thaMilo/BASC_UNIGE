@@ -26,7 +26,6 @@ def read_string(uc, address):
 
 def hook_code(uc, address, size, user_data):
     print(">>> Tracing instruction at 0x%x, instruction size = 0x%x" % (address, size))
-    # read this instruction code from memory
     tmp = uc.mem_read(address, size)
     print("*** PC = %x *** :" % (address), end="")
     for i in tmp:
@@ -48,6 +47,7 @@ def main(code):
         mu.mem_map(CODE_ADDRESS, 1024 * 1024)  # TODO gotta check this memory mapping
         mu.mem_write(CODE_ADDRESS, code)
 
+        # adding hook to capture the password
         mu.hook_add(UC_HOOK_CODE, hook_code)
 
         mu.emu_start(CODE_ADDRESS, CODE_ADDRESS + len(code))
