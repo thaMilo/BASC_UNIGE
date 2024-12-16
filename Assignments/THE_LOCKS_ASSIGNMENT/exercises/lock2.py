@@ -3,69 +3,41 @@ from unicorn.x86_const import *
 from pwn import *
 
 # Base address and stack definitions
-BASE = 0x00100000
-STACK_ADDR = 0x00200000
-STACK_SIZE = 2 * 1024 * 1024
+CODE_BASE = 0x10000000
+CODE_SIZE = 0x10000000
+STACK_BASE = 0x00100000
+STACK_SIZE = 0x00100000
+
 skip_list = [
-    0x1011F1,
-    0x1011FF,
-    0x101209,
-    0x101217,
-    0x101221,
-    0x10122F,
-    0x101239,
-    0x101247,
-    0x101251,
-    0x10125F,
-    0x101269,
-    0x101277,
-    0x101281,
-    0x10128F,
-    0x101295,
-    0x1012A1,
-    0x1012AB,
-    0x1012B9,
-    0x1012C3,
-    0x1012D1,
-    0x1012DB,
-    0x1012E9,
-    0x1012F3,
-    0x101301,
-    0x10130B,
-    0x101319,
-    0x101323,
-    0x101331,
-    0x10133B,
-    0x101349,
-    0x101353,
-    0x101361,
-    0x10136B,
-    0x101379,
-    0x101383,
-    0x101391,
-    0x10139B,
-    0x1013A9,
-    0x1013B3,
-    0x1013C1,
-    0x1013CB,
-    0x1013D9,
-    0x1013E3,
-    0x1013F1,
-    0x1013FB,
-    0x101409,
-    0x101413,
-    0x101421,
-    0x10142B,
-    0x101439,
+    0x10001632,
+    0x10001647,
+    0x10001653,
+    0x10001668,
+    0x10001674,
+    0x10001689,
+    0x100014EF,
+    0x100014FE,
+    0x100016A2,
+    0x100016C0,
+    0x100016DE,
+    0x100016FC,
+    0x1000170B,
+    0x10001729,
+    0x10001751,
+    0x1000175D,
+    0x1000176F,
+    0x1000178D,
+    0x1000179E,
+    0x10001814,
+    0x10001825,
 ]
 
 
 def hook_code(mu, address, size, user_data):
-    # print(f"INSTRUCTION 0x{address:x} SIZE {size}")
+    print(
+        f"[ INS - 0x{address:x} ] [ SIZE - {size}B ] [ RSP - 0x{mu.reg_read(UC_X86_REG_RSP, 64):x}]"
+    )
     if address in skip_list:
-        if address != 0x101F1:
-            dl_value = mu.reg_read(UC_X86_REG_DL)
-            print(f"DL Register: {(dl_value - 17)} (0x{dl_value:02x})")
         mu.reg_write(UC_X86_REG_RIP, address + size)
 
 
@@ -73,18 +45,25 @@ if __name__ == "__main__":
     try:
         with open("./thaMilo-the_lock-level_2", "rb") as f:
             code = f.read()
+
         mu = Uc(UC_ARCH_X86, UC_MODE_64)
 
-        mu.mem_map(BASE, max(len(code), 1024 * 1024), UC_PROT_ALL)
-        mu.mem_map(STACK_ADDR, STACK_SIZE, UC_PROT_ALL)
+        # setting up the stack
+        rsp = STACK_BASE + (STACK_SIZE // 2)
+        mu.mem_map(STACK_BASE, STACK_SIZE)
+        mu.reg_write(UC_X86_REG_RSP, rsp)
 
-        mu.mem_write(BASE, code)
-        mu.reg_write(UC_X86_REG_RSP, STACK_ADDR + STACK_SIZE - 8)
-        mu.reg_write(UC_X86_REG_RAX, BASE)
+        # setting up the code
+        mu.mem_map(CODE_BASE, CODE_SIZE, UC_PROT_ALL)
+        mu.mem_write(CODE_BASE, code)
 
+        # adding hook to trace instructions
         mu.hook_add(UC_HOOK_CODE, hook_code)
 
-        mu.emu_start(BASE + 0x173D, BASE + 0x1833)
+        # starting emulation from main
+        mu.emu_start(CODE_BASE + 0x1620, CODE_BASE + 0x1828, timeout=0, count=0)
+
+        print(mu.mem_read(CODE_BASE, CODE_SIZE).decode("latin1"))
 
     except UcError as e:
         print(f"ERROR: {e}")
