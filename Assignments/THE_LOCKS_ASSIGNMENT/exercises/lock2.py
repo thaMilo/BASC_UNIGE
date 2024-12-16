@@ -61,12 +61,12 @@ skip_list = [
 
 
 def hook_code(mu, address, size, user_data):
-    print(f"INSTRUCTION 0x{address:x} SIZE {size}")
+    # print(f"INSTRUCTION 0x{address:x} SIZE {size}")
     if address in skip_list:
+        if address != 0x101F1:
+            dl_value = mu.reg_read(UC_X86_REG_DL)
+            print(f"DL Register: {(dl_value - 17)} (0x{dl_value:02x})")
         mu.reg_write(UC_X86_REG_RIP, address + size)
-        if address == 0x101439:
-            password = mu.mem_read(0x117510, 16)
-            print(password)
 
 
 if __name__ == "__main__":
@@ -80,7 +80,7 @@ if __name__ == "__main__":
 
         mu.mem_write(BASE, code)
         mu.reg_write(UC_X86_REG_RSP, STACK_ADDR + STACK_SIZE - 8)
-        mu.reg_write(UC_X86_REG_RAX, 0x100000)
+        mu.reg_write(UC_X86_REG_RAX, BASE)
 
         mu.hook_add(UC_HOOK_CODE, hook_code)
 
