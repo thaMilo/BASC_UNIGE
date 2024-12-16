@@ -2,68 +2,53 @@ from unicorn import *
 from unicorn.x86_const import *
 from pwn import *
 
-# Base address and stack definitions
-CODE_BASE = 0x10000000
+CODE = 0x10000000
 CODE_SIZE = 0x10000000
-STACK_BASE = 0x00100000
-STACK_SIZE = 0x00100000
+STACK = 0x30000000
+STACK_SIZE = 0x10000000
+HEAP = 0x50000000
+HEAP_SIZE = 0x10000000
 
-skip_list = [
-    0x10001632,
-    0x10001647,
-    0x10001653,
-    0x10001668,
-    0x10001674,
-    0x10001689,
-    0x100014EF,
-    0x100014FE,
-    0x100016A2,
-    0x100016C0,
-    0x100016DE,
-    0x100016FC,
-    0x1000170B,
-    0x10001729,
-    0x10001751,
-    0x1000175D,
-    0x1000176F,
-    0x1000178D,
-    0x1000179E,
-    0x10001814,
-    0x10001825,
-]
+skip_list = []
 
 
 def hook_code(mu, address, size, user_data):
-    print(
-        f"[ INS - 0x{address:x} ] [ SIZE - {size}B ] [ RSP - 0x{mu.reg_read(UC_X86_REG_RSP, 64):x}]"
-    )
+    print(f"[ INS - 0x{address:x} ] [ SIZE - {size}B ]")
     if address in skip_list:
         mu.reg_write(UC_X86_REG_RIP, address + size)
 
 
+def init_mu():
+    mu = Uc(UC_ARCH_X86, UC_MODE_32)
+    mu.mem_map(STACK, STACK_SIZE)
+    mu.mem_map(HEAP, HEAP_SIZE)
+
+    mu.reg_write(UC_X86_REG_ESP, STACK + (STACK_SIZE // 2) - 0x200)
+    mu.reg_write(UC_X86_REG_EBP, STACK + (STACK_SIZE // 2))
+    return mu
+
+
 if __name__ == "__main__":
-    try:
-        with open("./thaMilo-the_lock-level_2", "rb") as f:
-            code = f.read()
+    # with open("./thaMilo-the_lock-level_2", "rb") as f:
+    #     code = f.read()
 
-        mu = Uc(UC_ARCH_X86, UC_MODE_64)
+    code = b"\x31\xc0\xb8\x42\x00\x00\x00\x05\xf5\x12\x00\x00"
+    mu = init_mu()
 
-        # setting up the stack
-        rsp = STACK_BASE + (STACK_SIZE // 2)
-        mu.mem_map(STACK_BASE, STACK_SIZE)
-        mu.reg_write(UC_X86_REG_RSP, rsp)
+    # # setting up the stack
+    # rsp = STACK_BASE + (STACK_SIZE // 2)
+    # mu.mem_map(STACK_BASE, STACK_SIZE)
+    # mu.reg_write(UC_X86_REG_ESP, rsp)
 
-        # setting up the code
-        mu.mem_map(CODE_BASE, CODE_SIZE, UC_PROT_ALL)
-        mu.mem_write(CODE_BASE, code)
+    # setting up the code
+    mu.mem_map(CODE, CODE_SIZE)
+    mu.mem_write(CODE, code)
+    mu.reg_write(UC_X86_REG_EIP, CODE)
 
-        # adding hook to trace instructions
-        mu.hook_add(UC_HOOK_CODE, hook_code)
+    # adding hook to trace instructions
+    mu.hook_add(UC_HOOK_CODE, hook_code)
 
-        # starting emulation from main
-        mu.emu_start(CODE_BASE + 0x1620, CODE_BASE + 0x1828, timeout=0, count=0)
-
-        print(mu.mem_read(CODE_BASE, CODE_SIZE).decode("latin1"))
-
-    except UcError as e:
-        print(f"ERROR: {e}")
+    # emulating the decode function
+    # mu.emu_start(CODE_BASE + 0x173D, CODE_BASE + 0x1751, timeout=0, count=0)
+    mu.emu_start(CODE, CODE + len(code))
+    print(hex(mu.reg_read(UC_X86_REG_EAX)))
