@@ -88,6 +88,8 @@ p.interactive()
 
 # level-2
 
+## Manual approach using gdb
+
 Running "file" revealed that the bin was stripped so I couldn't rely on functions' name to step through it.
 Assuming that the first call made by the program was to \_\_libc_start_main I set a break-point to it with gdb and ran to reveal the real main address
 
@@ -147,12 +149,61 @@ Nice try... however, it's wrong. Try again.
 Using "123456789123_lovelovelove" as password I was able to get the flag
 
 ```
+Wow! You got it, congratulations.
+Here is your flag:
 BASC{Br3akP0int5_and_3mul4t10n_R_us3fUl---thaMilo-Q8rGk6EE}
 ```
 
-In order to automate it with unicorn I lost my sanity
+## Automated approach using unicorn
 
-![](./imgs/me.jpg)
+```python
+from unicorn import *
+from unicorn.x86_const import *
+from pwn import *
+
+CODE = 0x10000000
+CODE_SIZE = 0x30000000
+STACK = 0x60000000
+STACK_SIZE = 0x10000000
+
+
+def hook_code(mu, address, size, user_data):
+    if address == CODE + 0x11DE:
+        mu.reg_write(UC_X86_REG_RDI, CODE + 0x16510)
+    if address == 0x100010CF:
+        mu.reg_write(UC_X86_REG_RIP, CODE + 0x1620)
+    if address == 0x10001632:
+        mu.reg_write(UC_X86_REG_RIP, CODE + 0x1733)
+
+def init_mu():
+    with open("./thaMilo-the_lock-level_2", "rb") as f:
+        code = f.read()
+        mu = Uc(UC_ARCH_X86, UC_MODE_64)
+        mu.mem_map(STACK, STACK_SIZE, UC_PROT_READ | UC_PROT_WRITE | UC_PROT_EXEC)
+        mu.reg_write(UC_X86_REG_RSP, STACK + (STACK_SIZE // 2))
+        mu.mem_map(CODE, CODE_SIZE, UC_PROT_READ | UC_PROT_WRITE | UC_PROT_EXEC)
+        mu.mem_write(CODE, code)
+        mu.hook_add(UC_HOOK_CODE, hook_code)
+        return mu
+
+
+if __name__ == "__main__":
+    mu = init_mu()
+    mu.emu_start(CODE + 0x10B0, CODE + 0x1751)
+    print("DECODED PASSWORD : " + mu.mem_read(CODE + 0x16510, 25).decode("latin1"))
+```
+
+```
+DECODED PASSWORD : 123456789123_lovelovelove
+```
+
+```
+Wow! You got it, congratulations.
+Here is your flag:
+BASC{Br3akP0int5_and_3mul4t10n_R_us3fUl---thaMilo-Q8rGk6EE}
+```
+
+![](./imgs/happy.gif)
 
 
 
