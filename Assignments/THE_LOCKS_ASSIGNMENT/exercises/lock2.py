@@ -9,8 +9,10 @@ STACK_SIZE = 0x10000000
 
 
 def hook_code(mu, address, size, user_data):
-    print(f"[ INS - 0x{address:x} ] [ SIZE - {size}B ]")
+    # print(f"|--[  0x{address:x}  ]--[  {size}B  ]--|")
 
+    if address == CODE + 0x11DE:  # Adjust based on actual function address
+        mu.reg_write(UC_X86_REG_RDI, CODE + 0x16510)
     if address == 0x100010CF:
         mu.reg_write(UC_X86_REG_RIP, CODE + 0x1620)
 
@@ -19,24 +21,20 @@ def hook_code(mu, address, size, user_data):
 
 
 def init_mu():
-    mu = Uc(UC_ARCH_X86, UC_MODE_64)
-    mu.mem_map(STACK, STACK_SIZE)
-    mu.reg_write(UC_X86_REG_RSP, STACK + (STACK_SIZE // 2))
-    return mu
+    with open("./thaMilo-the_lock-level_2", "rb") as f:
+        code = f.read()
+        mu = Uc(UC_ARCH_X86, UC_MODE_64)
+        # setting up the stack
+        mu.mem_map(STACK, STACK_SIZE, UC_PROT_READ | UC_PROT_WRITE | UC_PROT_EXEC)
+        mu.reg_write(UC_X86_REG_RSP, STACK + (STACK_SIZE // 2))
+        # setting up the code
+        mu.mem_map(CODE, CODE_SIZE, UC_PROT_READ | UC_PROT_WRITE | UC_PROT_EXEC)
+        mu.mem_write(CODE, code)
+        mu.hook_add(UC_HOOK_CODE, hook_code)
+        return mu
 
 
 if __name__ == "__main__":
-    with open("./thaMilo-the_lock-level_2", "rb") as f:
-        code = f.read()
-
     mu = init_mu()
-
-    # setting up the code
-    mu.mem_map(CODE, CODE_SIZE)
-    mu.mem_write(CODE, code)
-    # adding hook to trace instructions
-    mu.hook_add(UC_HOOK_CODE, hook_code)
-    # starting the emulation
-    print(mu.mem_read(CODE + 0x13478, 10))
-    mu.emu_start(CODE + 0x10B0, CODE + 0x1651)
-    print(mu.mem_read(CODE + 0x17510, 25).decode("latin1"))
+    mu.emu_start(CODE + 0x10B0, CODE + 0x1751)
+    print("DECODED PASSWORD : " + mu.mem_read(CODE + 0x16510, 25).decode("latin1"))
