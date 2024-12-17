@@ -11,11 +11,10 @@ STACK_SIZE = 0x10000000
 def hook_code(mu, address, size, user_data):
     # print(f"|--[  0x{address:x}  ]--[  {size}B  ]--|")
 
-    if address == CODE + 0x11DE:  # Adjust based on actual function address
+    if address == CODE + 0x11DE:
         mu.reg_write(UC_X86_REG_RDI, CODE + 0x16510)
     if address == 0x100010CF:
         mu.reg_write(UC_X86_REG_RIP, CODE + 0x1620)
-
     if address == 0x10001632:
         mu.reg_write(UC_X86_REG_RIP, CODE + 0x1733)
 
