@@ -1,4 +1,4 @@
-# level-1
+# level_1
 
 For the first level I first wanted to see what was going inside using Ghidra
 
@@ -86,77 +86,14 @@ p.sendline(password)
 p.interactive()
 ```
 
-# level-2
+# level_2
 
-## Manual approach using gdb
+Running file on level_2 revealed that the elf was pie and stripped so I couldn't rely on functions' name to analyse it but just as hinted in the README I used unicorn to emulate the binary.
 
-Running "file" revealed that the bin was stripped so I couldn't rely on functions' name to step through it.
-Assuming that the first call made by the program was to \_\_libc_start_main I set a break-point to it with gdb and ran to reveal the real main address
+Unicorn allows to emulate only some parts of the chosen binary and since I knew that right after the call to the decode function the clear password could be read at offset **0x16510** I decided to emulate only that.
 
-```
-(gdb) b __libc_start_main
-Function "__libc_start_main" not defined.
-Make breakpoint pending on future shared library load? (y or [n]) y
-Breakpoint 1 (__libc_start_main) pending.
-(gdb) r
-Starting program: ~/.../thaMilo-the_lock-level_2F
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/usr/lib/libthread_db.so.1".
-Breakpoint 1, __libc_start_main_impl (main=0x555555555620, argc=1, argv=0x7fffffffddc8,
-    init=0x0, fini=0x0, rtld_fini=0x7ffff7fcb200 <_dl_fini>, stack_end=0x7fffffffddb8)
-    at ../csu/libc-start.c:242
-242	{
-```
+In order to decode the password I had to put manually its address in the RDI register so that the function could reference it correctly in the body.
 
-After that I set a break-point at that address and stepping one instruction at a time I was able to get the other addresses revealed by the executable itself
-
-```
-(gdb) b *0x555555555620
-Breakpoint 2 at 0x555555555620
-(gdb) c
-Continuing.
-Breakpoint 2, 0x0000555555555620 in ?? ()
-(gdb) ni
-0x0000555555555621 in ?? ()
-(gdb) ni
-0x0000555555555624 in ?? ()
-.
-.
-.
-(gdb) ni
-3) overwrites the password in memory with zeroes (function at address: 0x5555555554b8)
-0x0000555555555701 in ?? ()
-.
-.
-.
-(gdb) ni
-The address of super-secret-password is random (this time it is 0x55555556b510), but it will be passed, as the first argument, to some functions. If you could only stop time and read the password before it's too late...
-```
-
-Doing so I got the "reset password" function address and, as above, I set a break-point to it dumping the value of the decoded "super password"'s address after being prompted.
-
-```
-(gdb) b *0x5555555554b8
-Breakpoint 3 at 0x5555555554b8
-(gdb) c
-Continuing.
-Please enter the password: a
-Nice try... however, it's wrong. Try again.
-(gdb) x/s 0x55555556b510
-0x55555556b510:	"123456789123_lovelovelove"
-```
-
-Using "123456789123_lovelovelove" as password I was able to get the flag
-
-```
-Wow! You got it, congratulations.
-Here is your flag:
-BASC{Br3akP0int5_and_3mul4t10n_R_us3fUl---thaMilo-Q8rGk6EE}
-```
-
-## Automated approach using unicorn
-
-a
 
 ```python
 from unicorn import *
@@ -170,12 +107,12 @@ STACK_SIZE = 0x10000000
 
 
 def hook_code(mu, address, size, user_data):
+	# 0x11DE offset of the decode function
     if address == CODE + 0x11DE:
+	    # 0x16510 offset of the password
+		# The password's address had to be put in the rdi register manually
+		# since we are only emulating part of the binary
         mu.reg_write(UC_X86_REG_RDI, CODE + 0x16510)
-    if address == 0x100010CF:
-        mu.reg_write(UC_X86_REG_RIP, CODE + 0x1620)
-    if address == 0x10001632:
-        mu.reg_write(UC_X86_REG_RIP, CODE + 0x1733)
 
 def init_mu():
     with open("./thaMilo-the_lock-level_2", "rb") as f:
@@ -191,9 +128,13 @@ def init_mu():
 
 if __name__ == "__main__":
     mu = init_mu()
-    mu.emu_start(CODE + 0x10B0, CODE + 0x1751)
+    # 0x1733 offset of the call to the decode function
+    # 0x1751 offset of the line right after the call to decode dunction
+    mu.emu_start(CODE + 0x1733, CODE + 0x1751)
     print("DECODED PASSWORD : " + mu.mem_read(CODE + 0x16510, 25).decode("latin1"))
 ```
+
+Doing so granted me the password and consequently the flag
 
 ```
 DECODED PASSWORD : 123456789123_lovelovelove
@@ -204,8 +145,6 @@ Wow! You got it, congratulations.
 Here is your flag:
 BASC{Br3akP0int5_and_3mul4t10n_R_us3fUl---thaMilo-Q8rGk6EE}
 ```
-
-![](./imgs/happy.gif)
 
 
 

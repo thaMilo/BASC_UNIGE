@@ -9,24 +9,20 @@ STACK_SIZE = 0x10000000
 
 
 def hook_code(mu, address, size, user_data):
-    # print(f"|--[  0x{address:x}  ]--[  {size}B  ]--|")
-
+    # 0x11DE offset of the decode function
     if address == CODE + 0x11DE:
+        # 0x16510 offset of the password
+        # The password's address had to be put in the rdi register manually
+        # since we are only emulating part of the binary
         mu.reg_write(UC_X86_REG_RDI, CODE + 0x16510)
-    if address == 0x100010CF:
-        mu.reg_write(UC_X86_REG_RIP, CODE + 0x1620)
-    if address == 0x10001632:
-        mu.reg_write(UC_X86_REG_RIP, CODE + 0x1733)
 
 
 def init_mu():
     with open("./thaMilo-the_lock-level_2", "rb") as f:
         code = f.read()
         mu = Uc(UC_ARCH_X86, UC_MODE_64)
-        # setting up the stack
         mu.mem_map(STACK, STACK_SIZE, UC_PROT_READ | UC_PROT_WRITE | UC_PROT_EXEC)
         mu.reg_write(UC_X86_REG_RSP, STACK + (STACK_SIZE // 2))
-        # setting up the code
         mu.mem_map(CODE, CODE_SIZE, UC_PROT_READ | UC_PROT_WRITE | UC_PROT_EXEC)
         mu.mem_write(CODE, code)
         mu.hook_add(UC_HOOK_CODE, hook_code)
@@ -35,5 +31,7 @@ def init_mu():
 
 if __name__ == "__main__":
     mu = init_mu()
-    mu.emu_start(CODE + 0x10B0, CODE + 0x1751)
+    # 0x1733 offset of the call to the decode function
+    # 0x1751 offset of the line right after the call to decode dunction
+    mu.emu_start(CODE + 0x1733, CODE + 0x1751)
     print("DECODED PASSWORD : " + mu.mem_read(CODE + 0x16510, 25).decode("latin1"))
