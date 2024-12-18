@@ -109,9 +109,13 @@ STACK_SIZE = 0x10000000
 def hook_code(mu, address, size, user_data):
 	# 0x11DE offset of the decode function
     if address == CODE + 0x11DE:
-	    # 0x16510 offset of the password
-		# The password's address had to be put in the rdi register manually
-		# since we are only emulating part of the binary
+	    ''' 
+		    0x16510 offset of the password found using pwntools, reading the data section
+		    and looking at the offset with ghidra
+			---
+			The password's address had to be put in the rdi register manually since we are
+			only emulating part of the binary
+        '''
         mu.reg_write(UC_X86_REG_RDI, CODE + 0x16510)
 
 def init_mu():
@@ -128,8 +132,10 @@ def init_mu():
 
 if __name__ == "__main__":
     mu = init_mu()
-    # 0x1733 offset of the call to the decode function
-    # 0x1751 offset of the line right after the call to decode dunction
+    '''
+	    0x1733 offset of the call to the decode function
+	    0x1751 offset of the line right after the call to decode dunction
+    '''
     mu.emu_start(CODE + 0x1733, CODE + 0x1751)
     print("DECODED PASSWORD : " + mu.mem_read(CODE + 0x16510, 25).decode("latin1"))
 ```
