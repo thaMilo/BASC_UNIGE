@@ -1,11 +1,12 @@
 {
   "theme": "obsidian",
-  "accentColor": "#80d9ff",
+  "accentColor": "#70b5ff",
   "cssTheme": "Minimal",
   "interfaceFontFamily": "Agave Nerd Font",
   "textFontFamily": "Agave Nerd Font",
   "monospaceFontFamily": "Agave Nerd Font",
   "baseFontSizeAction": true,
   "showViewHeader": true,
-  "baseFontSize": 18
+  "baseFontSize": 19,
+  "showRibbon": false
 }

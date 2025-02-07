@@ -1,24 +1,24 @@
 {
   "main": {
-    "id": "87b3aa03b2a99d7b",
+    "id": "d406e3d7ac2606f8",
     "type": "split",
     "children": [
       {
-        "id": "c365ac2b3b2dabe0",
+        "id": "59dd30c52850c648",
         "type": "tabs",
         "children": [
           {
-            "id": "89fb9495c5dc0f43",
+            "id": "b7a558f91fa5fe48",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ELF FILES' ANALYSIS - Milo Galli S4793560.md",
+                "file": "ELF_REPORT-Milo_Galli_S4793560.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ELF FILES' ANALYSIS - Milo Galli S4793560"
+              "title": "ELF_REPORT-Milo_Galli_S4793560"
             }
           }
         ]
@@ -27,27 +27,28 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "aa7d64e4a4720a83",
+    "id": "0725164fb682c6d9",
     "type": "split",
     "children": [
       {
-        "id": "44fd79116802d364",
+        "id": "002d7fdb1356503b",
         "type": "tabs",
         "children": [
           {
-            "id": "6cae18a149fa74c5",
+            "id": "be04b92b4c9c81e7",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
+                "sortOrder": "alphabetical",
+                "autoReveal": false
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
             }
           },
           {
-            "id": "99a137caa69ede75",
+            "id": "adb708a185f3403b",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -64,7 +65,7 @@
             }
           },
           {
-            "id": "18b75149c96e9db1",
+            "id": "d1b186431ea433ed",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -77,23 +78,22 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200
   },
   "right": {
-    "id": "941afe6176c18a81",
+    "id": "7413c3c0f4fdcc0e",
     "type": "split",
     "children": [
       {
-        "id": "52a6fb19ff39b523",
+        "id": "9cf0e62a9786ce59",
         "type": "tabs",
         "children": [
           {
-            "id": "4af4d6b8cf1557d4",
+            "id": "d4aa77841de6fc60",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ELF FILES' ANALYSIS - Milo Galli S4793560.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,25 +103,25 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for ELF FILES' ANALYSIS - Milo Galli S4793560"
+              "title": "Backlinks"
             }
           },
           {
-            "id": "6c60a197f2513830",
+            "id": "ec846df488769ee8",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ELF FILES' ANALYSIS - Milo Galli S4793560.md",
+                "file": "BASC - Toppler32-64 Report - Milo Galli S4793560.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from ELF FILES' ANALYSIS - Milo Galli S4793560"
+              "title": "Outgoing links from BASC - Toppler32-64 Report - Milo Galli S4793560"
             }
           },
           {
-            "id": "2b55a863e920c0c3",
+            "id": "4e2bdc033d4a9c87",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -134,15 +134,15 @@
             }
           },
           {
-            "id": "a35f33ac277238e6",
+            "id": "37ff0dcca5767e57",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "ELF FILES' ANALYSIS - Milo Galli S4793560.md"
+                "file": "BASC - Toppler32-64 Report - Milo Galli S4793560.md"
               },
               "icon": "lucide-list",
-              "title": "Outline of ELF FILES' ANALYSIS - Milo Galli S4793560"
+              "title": "Outline of BASC - Toppler32-64 Report - Milo Galli S4793560"
             }
           }
         ]
@@ -159,9 +159,35 @@
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
-      "command-palette:Open command palette": false
+      "command-palette:Open command palette": false,
+      "audio-recorder:Start/stop recording": false,
+      "markdown-importer:Open format converter": false
     }
   },
-  "active": "89fb9495c5dc0f43",
-  "lastOpenFiles": []
+  "active": "b7a558f91fa5fe48",
+  "lastOpenFiles": [
+    "imgs/happy.gif",
+    "imgs/py_script_lock1.png",
+    "THE_LOCKS_REPORT-Milo_Galli_S4793560.md",
+    "imgs/me.jpg",
+    "imgs/unicorn.png",
+    "imgs/r2_lock2.png",
+    "imgs/decode_fun_lock2.png",
+    "imgs/decode_fun_end_lock2.png",
+    "imgs",
+    "EXPLOITING_REPORT-Milo_Galli_S4793560.mda1v4HC.bck",
+    "EXPLOITING_REPORT-Milo_Galli_S4793560.mdZAGJwI.bck",
+    "imgs/call_me_flag_function_caller.png",
+    "EXPLOITING_REPORT-Milo_Galli_S4793560.md",
+    "imgs/call_me_flag1.png",
+    "static/call_me_flag1.png",
+    "EXPLOITING_REPORT-Milo_Galli_S4793560.mdVLq5Ew.bck",
+    "static",
+    "EXPLOITING_REPORT-Milo_Galli_S4793560.mda8y4P9.bck",
+    "EXPLOITING_REPORT-Milo_Galli_S4793560.mdQnQEi8.bck",
+    "media",
+    "EXPLOITING_REPORT-Milo_Galli_S4793560.mdfK4aIT.bck",
+    "EXPLOITING_REPORT-Milo_Galli_S4793560.mdr6S1uc.bck",
+    "BASC - Toppler32 Report - Milo Galli S4793560.md"
+  ]
 }

@@ -1,4 +1,8 @@
 {
   "showInlineTitle": true,
-  "showRibbon": false
+  "readableLineLength": true,
+  "strictLineBreaks": false,
+  "showLineNumber": true,
+  "spellcheck": false,
+  "vimMode": false
 }

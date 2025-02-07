@@ -11,10 +11,14 @@
             "id": "b7a558f91fa5fe48",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "THE_LOCKS_REPORT-Milo_Galli_S4793560.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "THE_LOCKS_REPORT-Milo_Galli_S4793560"
             }
           }
         ]
@@ -36,7 +40,8 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
+                "sortOrder": "alphabetical",
+                "autoReveal": false
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -161,10 +166,10 @@
   },
   "active": "b7a558f91fa5fe48",
   "lastOpenFiles": [
-    "THE_LOCKS_REPORT-Milo_Galli_S4793560.md",
     "imgs/happy.gif",
-    "imgs/me.jpg",
     "imgs/py_script_lock1.png",
+    "THE_LOCKS_REPORT-Milo_Galli_S4793560.md",
+    "imgs/me.jpg",
     "imgs/unicorn.png",
     "imgs/r2_lock2.png",
     "imgs/decode_fun_lock2.png",

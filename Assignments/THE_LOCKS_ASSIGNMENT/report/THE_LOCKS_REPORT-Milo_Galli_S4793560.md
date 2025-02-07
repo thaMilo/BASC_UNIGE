@@ -151,12 +151,3 @@ Wow! You got it, congratulations.
 Here is your flag:
 BASC{Br3akP0int5_and_3mul4t10n_R_us3fUl---thaMilo-Q8rGk6EE}
 ```
-
-
-
-
-
-
-
-
-

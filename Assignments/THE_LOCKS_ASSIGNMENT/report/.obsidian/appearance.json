@@ -1,11 +1,12 @@
 {
   "theme": "obsidian",
-  "accentColor": "#e1bdff",
-  "cssTheme": "AnuPpuccin",
-  "interfaceFontFamily": "JetBrainsMono Nerd Font",
-  "textFontFamily": "JetBrainsMono Nerd Font",
-  "monospaceFontFamily": "JetBrainsMono Nerd Font",
+  "accentColor": "#70b5ff",
+  "cssTheme": "Minimal",
+  "interfaceFontFamily": "Agave Nerd Font",
+  "textFontFamily": "Agave Nerd Font",
+  "monospaceFontFamily": "Agave Nerd Font",
   "baseFontSizeAction": true,
   "showViewHeader": true,
-  "baseFontSize": 13
+  "baseFontSize": 18,
+  "showRibbon": false
 }
